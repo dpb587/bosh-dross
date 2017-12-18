@@ -1,0 +1,144 @@
+<html>
+  <head>
+    <title>{{ manifest.BaseName }}</title>
+    <link href="app.css" type="text/css" rel="stylesheet">
+    <style text="text/css">
+      .sidebar--header .sidebar--icon { background-color: #1F9FD3; }
+      .sidebar--item-wrapper.sidebar--item-wrapper__active { border-left-color: #1F9FD3; }
+    </style>
+  </head>
+  <body>
+    <div id="root">
+      <div id="app" class="grid grid-nogutter">
+        <div class="col col-fixed">
+          <div class="sidebar">
+            <div class="sidebar--header">
+              <div class="icon icon-middle sidebar--icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path fill="#ffffff" d="M537.585 226.56C541.725 215.836 544 204.184 544 192c0-53.019-42.981-96-96-96-19.729 0-38.065 5.954-53.316 16.159C367.042 64.248 315.288 32 256 32c-88.366 0-160 71.634-160 160 0 2.728.07 5.439.204 8.133C40.171 219.845 0 273.227 0 336c0 79.529 64.471 144 144 144h368c70.692 0 128-57.308 128-128 0-61.93-43.983-113.586-102.415-125.44z"/></svg>
+              </div>
+              <div class="sidebar--title plxl">bosh-dross</div>
+            </div>
+            <div class="sidebar--items">
+              <div class="sidebar--item-wrapper sidebar--item-wrapper__active">
+                <a href="getstarted" class="sidebar--item">Welcome</a>
+              </div>
+              <div class="panel">
+                <div class="panel-heading">
+                  <div class="panel-title" role="presentation">
+                    <div class="collapse-trigger">
+                      <div class="icon icon-middle collapse-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" class="icon-arrow_drop_down"><path d="M14 20l10 10 10-10z"></path></svg>
+                      </div>
+                      Basic Settings
+                    </div>
+                  </div>
+                </div>
+                <div class="panel-collapse">
+                  <div class="collapse in panel-body" aria-hidden="false" style="">
+                    <div class="collapse-shield" style="">
+                      <div class="sidebar--item-wrapper">
+                        <a href="alerts" class="sidebar--item">Cloud Provider</a>
+                      </div>
+                      <div class="sidebar--item-wrapper">
+                        <a href="alignment" class="sidebar--item">Networking</a>
+                      </div>
+                      <div class="sidebar--item-wrapper">
+                        <a href="autocomplete" class="sidebar--item">Other</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="panel">
+                <div class="panel-heading">
+                  <div class="panel-title" role="presentation">
+                    <div class="collapse-trigger">
+                      <div class="icon icon-middle collapse-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" class="icon-arrow_drop_down"><path d="M14 20l10 10 10-10z"></path></svg>
+                      </div>
+                      Advanced Settings
+                    </div>
+                  </div>
+                </div>
+                <div class="panel-collapse">
+                  <div class="collapse in panel-body" aria-hidden="false" style="">
+                    <div class="collapse-shield" style="">
+                      <div class="sidebar--item-wrapper">
+                        <a href="alerts" class="sidebar--item">bosh</a>
+                      </div>
+                      <div class="sidebar--item-wrapper">
+                        <a href="alignment" class="sidebar--item">bosh-aws-cpi</a>
+                      </div>
+                      <div class="sidebar--item-wrapper">
+                        <a href="alignment" class="sidebar--item">Other</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="sidebar--item-wrapper">
+                <a href="upgradeguide" class="sidebar--item">Review</a>
+              </div>
+              <div class="sidebar--item-wrapper">
+                <a href="contribute" class="sidebar--item">Deploy</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="content" class="col content">
+          <div id="wrapper">
+            <div>
+              <h1 id="getting-started-with-pivotal-ui" class="h1">Basic Settings</h1>
+
+              <h2 id="starter-project" class="h2">Cloud Provider</h2>
+
+              <p>
+                These settings are IaaS-specific and help configure how the virtual machine will be provisioned and used.
+              </p>
+
+              <form class="form" name="example02">
+                <fieldset>
+                  <div class="grid form-row">
+                    <div class="col form-col">
+                      <div class="form-unit">
+                        <div class="grid grid-nogutter label-row">
+                          <div class="col">
+                            <label for="bnkpd00POv9eb/2oe4eLIg==">Street Address</label>
+                          </div>
+                          <div class="col col-fixed col-middle post-label"></div>
+                        </div>
+                        <div class="field-row">
+                          <input type="text" name="streetAddress" id="bnkpd00POv9eb/2oe4eLIg==" value="" class="" />
+                        </div>
+                        <div class="help-row type-dark-5"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="grid form-row">
+                    <div class="col form-col"></div>
+                    <div class="col form-col col-fixed">
+                      <div class="form-unit">
+                        <div class="field-row">
+                          <div id="wZutQHJnogy0AqRC8KMaSQ==">
+                            <button class="btn btn-primary-alt" type="button" aria-label="Reset"><span class="btn-inner-content">
+                              <span>Reset</span> </span>
+                            </button>
+                            <button class="btn btn-primary" type="button" aria-label="Submit" disabled=""><span class="btn-inner-content">
+                              <span>Submit</span> </span>
+                            </button>
+                          </div>
+                        </div>
+                        <div class="help-row type-dark-5"></div>
+                      </div>
+                    </div>
+                  </div>
+                </fieldset>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="bundle.js" charset="utf-8"></script>
+  </body>
+</html>
