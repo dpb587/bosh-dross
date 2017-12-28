@@ -1,7 +1,7 @@
 package schema
 
 import (
-	"errors"
+	"fmt"
 	"sort"
 )
 
@@ -56,5 +56,5 @@ func (f *PrioritizedFactoryLoader) Load(uri string) ([]byte, error) {
 		}
 	}
 
-	return nil, errors.New("no supported loader found")
+	return nil, fmt.Errorf("no supported loader found: %s", uri)
 }

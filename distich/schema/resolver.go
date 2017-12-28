@@ -35,7 +35,12 @@ func (r *Resolver) Load(uri string) (*Node, error) {
 	schema := r.cache[uriSplit[0]]
 
 	if len(uriSplit) == 2 && uriSplit[1] != "" {
-		return r.traverse(schema, strings.TrimPrefix(uriSplit[1], "/"))
+		schema2, err := r.traverse(schema, strings.TrimPrefix(uriSplit[1], "/"))
+		if err != nil {
+			return nil, err
+		}
+
+		schema = schema2
 	}
 
 	return schema, nil
@@ -55,7 +60,14 @@ func (r *Resolver) parse(uri string) (*Node, error) {
 	}
 
 	s.ApplyID(fmt.Sprintf("%s#", uri))
-	fmt.Printf("%#+v\n", s)
+
+	// @todo hack to support self-referencing $ref
+	r.cache[uri] = &s
+
+	err = r.recurseParse(&s)
+	if err != nil {
+		return nil, err
+	}
 
 	return &s, nil
 }
@@ -98,4 +110,96 @@ func (r Resolver) traverse(node *Node, fragment string) (*Node, error) {
 	}
 
 	return node, nil
+}
+
+// @todo self-references will recurse
+// @todo merge $ref'd node properties?
+func (r Resolver) recurseParse(node *Node) error {
+	var err error
+
+	for subnodeIdx, subnode := range node.Definitions {
+		if subnode.Ref_ != "" {
+			node.Definitions[subnodeIdx], err = r.Load(subnode.Ref_)
+			if err != nil {
+				return err
+			}
+		} else {
+			err = r.recurseParse(node.Definitions[subnodeIdx])
+			if err != nil {
+				return err
+			}
+		}
+	}
+
+	if node.Items != nil {
+		if node.Items.Ref_ != "" {
+			node.Items, err = r.Load(node.Ref_)
+			if err != nil {
+				return err
+			}
+		} else {
+			err = r.recurseParse(node.Items)
+			if err != nil {
+				return err
+			}
+		}
+	}
+
+	for subnodeIdx, subnode := range node.Properties {
+		if subnode.Ref_ != "" {
+			node.Properties[subnodeIdx], err = r.Load(subnode.Ref_)
+			if err != nil {
+				return err
+			}
+		} else {
+			err = r.recurseParse(node.Properties[subnodeIdx])
+			if err != nil {
+				return err
+			}
+		}
+	}
+
+	for subnodeIdx, subnode := range node.OneOf {
+		if subnode.Ref_ != "" {
+			node.OneOf[subnodeIdx], err = r.Load(subnode.Ref_)
+			if err != nil {
+				return err
+			}
+		} else {
+			err = r.recurseParse(node.OneOf[subnodeIdx])
+			if err != nil {
+				return err
+			}
+		}
+	}
+
+	for subnodeIdx, subnode := range node.AnyOf {
+		if subnode.Ref_ != "" {
+			node.AnyOf[subnodeIdx], err = r.Load(subnode.Ref_)
+			if err != nil {
+				return err
+			}
+		} else {
+			err = r.recurseParse(node.AnyOf[subnodeIdx])
+			if err != nil {
+				return err
+			}
+		}
+	}
+
+	for subnodeIdx, subnode := range node.AllOf {
+		if subnode.Ref_ != "" {
+			node.AllOf[subnodeIdx], err = r.Load(subnode.Ref_)
+			if err != nil {
+				return err
+			}
+		} else {
+			err = r.recurseParse(node.AllOf[subnodeIdx])
+			if err != nil {
+				return err
+			}
+		}
+	}
+
+	return nil
 }

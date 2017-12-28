@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"strings"
 
@@ -18,7 +19,22 @@ func main() {
 	// contextual
 	schemaLoader := schema.PrioritizedFactoryLoader{}
 	schemaLoader.Add(loaders.NewRemappedLoader(loaders.LocalFile{}, "https://dpb587.github.io/bosh-json-schema/", "file://./bosh-json-schema/"), 50)
+	schemaLoader.Add(loaders.LocalReleaseCache{}, 10)
 	schemaResolver := schema.NewResolver(&schemaLoader)
+
+	schema, err := schemaResolver.Load("https://dpb587.github.io/bosh-json-schema-release/v0/github.com/cloudfoundry/bosh/bosh/v264.5.0/jobs?sha1=c7133d0069b604e96bee203801bb8d686c9a98d9&url=https://bosh.io/d/github.com/cloudfoundry/bosh?v=264.5.0")
+	if err != nil {
+		panic(err)
+	}
+
+	mm1, err := json.MarshalIndent(schema, "", "  ")
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Printf("%s\n", mm1)
+
+	return
 
 	editorFieldFactory := form.PrioritizedFieldFactory{}
 	editorFieldFactory.Add(fieldfactories.NewJSONSchema(&schemaResolver), 50)
@@ -33,6 +49,13 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
+	mm, err := json.MarshalIndent(schemaNode, "", "  ")
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Printf("%s\n", mm)
 
 	// usefulness
 	manifestNode, err := manifest.GetAppliedDataNode()

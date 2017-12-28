@@ -45,12 +45,12 @@ func (ff JSONSchema) Create(uri, path string, options form.FieldOptions) (form.F
 			options[value] = value
 		}
 
-		return &fields.Select{
+		return &fields.ChoiceSelect{
 			BaseField: baseField,
 			Options:   options,
 		}, nil
 	} else if schema.Type == "string" || schema.Type == "" {
-		return &fields.Select{
+		return &fields.Text{
 			BaseField: baseField,
 		}, nil
 	} else if schema.Type == "object" {
@@ -60,7 +60,7 @@ func (ff JSONSchema) Create(uri, path string, options form.FieldOptions) (form.F
 			BaseField: baseField,
 		}, nil
 	} else if schema.Type == "boolean" {
-		return &fields.Select{
+		return &fields.ChoiceSelect{
 			BaseField: baseField,
 			Options: map[interface{}]string{
 				true:  "Enabled",

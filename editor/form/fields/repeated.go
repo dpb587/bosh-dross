@@ -1,19 +1,24 @@
 package fields
 
 import (
+	"fmt"
+
 	"github.com/dpb587/bosh-dross/editor/form"
 	"github.com/dpb587/bosh-dross/editor/form/helpers"
 )
 
-type Select struct {
+type Repeated struct {
 	BaseField
-	Value   []string
-	Options map[interface{}]string
+	Value []interface{}
+
+	FieldFactory form.FieldFactory
+	FieldType    string
+	Fields       []form.Field
 }
 
-var _ form.Field = &Select{}
+var _ form.Field = &Repeated{}
 
-func (f *Select) HTML() []byte {
+func (f *Repeated) HTML() []byte {
 	html, err := helpers.TemplatedFieldHTML(`
     <div class="grid form-row">
       <div class="col form-col">
@@ -43,8 +48,19 @@ func (f *Select) HTML() []byte {
 	return html
 }
 
-func (f *Select) Set(data interface{}) error {
-	f.Value = data.([]string) // @todo panic
+func (f *Repeated) Set(data interface{}) error {
+	f.Value = data.([]interface{})
+
+	for valueIdx, value := range f.Value {
+		field, err := f.FieldFactory.Create(f.FieldType, fmt.Sprintf("%s/%d", f.BaseField.Path, valueIdx), f.BaseField.Options)
+		if err != nil {
+			return err
+		}
+
+		field.Set(value)
+
+		f.Fields = append(f.Fields, field)
+	}
 
 	return nil
 }
